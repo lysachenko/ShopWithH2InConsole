@@ -1,13 +1,27 @@
 package service;
 
+import model.Order;
+import model.User;
+
+import java.util.List;
 
 public interface UserService {
 
-    /**
-     * Used to login a user
-     * @param username user name
-     * @param password user password
-     * @return outcome of login - success or not
-     */
     boolean login(String username, String password);
+
+    boolean register(String username, String password);
+
+    void update(User user);
+
+    void delete(Order order);
+
+    void blockUser(long id);
+
+    void unBlockUser(long id);
+
+    User findByName(String name);
+
+    User findById(long id);
+
+    List<User> findAll();
 }
