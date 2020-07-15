@@ -13,7 +13,7 @@ public interface UserService {
 
     void update(User user);
 
-    void delete(Order order);
+    void delete(User user);
 
     void blockUser(long id);
 
