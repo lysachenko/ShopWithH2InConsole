@@ -8,15 +8,15 @@ import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
-    private static final ProductServiceImpl singleton = new ProductServiceImpl();
+    private static final ProductService productService = new ProductServiceImpl();
 
     private final ProductDao productDao = ProductDaoImpl.getInstance();
 
     public ProductServiceImpl() {
     }
 
-    public static ProductServiceImpl getInstance() {
-        return singleton;
+    public static ProductService getInstance() {
+        return productService;
     }
 
     @Override

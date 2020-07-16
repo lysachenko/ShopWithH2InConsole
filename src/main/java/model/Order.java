@@ -4,13 +4,13 @@ import java.util.Map;
 
 public class Order {
     private long id;
-    private long userId;
+    private User user;
     private OrderStatus orderStatus;
-    private Map<Product,Integer> positionMap;
+    private Map<Product, Integer> positionMap;
 
-    public Order(long id, long userId, OrderStatus orderStatus, Map<Product, Integer> positionMap) {
+    public Order(long id, User user, OrderStatus orderStatus, Map<Product, Integer> positionMap) {
         this.id = id;
-        this.userId = userId;
+        this.user = user;
         this.orderStatus = orderStatus;
         this.positionMap = positionMap;
     }
@@ -23,12 +23,12 @@ public class Order {
         this.id = id;
     }
 
-    public long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public OrderStatus getOrderStatus() {

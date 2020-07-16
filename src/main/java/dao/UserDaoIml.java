@@ -10,8 +10,7 @@ import java.util.TreeMap;
 
 public class UserDaoIml implements UserDao{
 
-    public static final UserDao userDao = new UserDaoIml();
-
+    private static final UserDao userDao = new UserDaoIml();
     private static final Map<Long, User> userMap = new TreeMap<>();
 
     static {
