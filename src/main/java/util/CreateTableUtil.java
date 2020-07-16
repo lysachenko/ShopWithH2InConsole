@@ -12,7 +12,7 @@ public class CreateTableUtil {
                     + " username varchar(20),"
                     + " password varchar(20),"
                     + " role varchar(20),"
-                    + " isActive boolean);";
+                    + " is_active boolean);";
 
     private static final String createTableProduct =
             "create table if not exists products ("
@@ -22,17 +22,17 @@ public class CreateTableUtil {
                     + " amount float);";
 
     private static final String createTableOrder =
-            "create table orders ("
+            "create table if not exists orders ("
                     + "id integer primary key,"
                     + " user_id integer,"
-                    + " order_status varchar(20));";
+                    + " order_status varchar(20),"
+                    + " foreign key (user_id) references users(id));";
 
-    //Запускать для проверки создания таблиц
-    public static void main(String[] args) {
+    public void run() {
         createTables();
     }
 
-    public static void createTables() {
+    private static void createTables() {
         System.out.println(createTableUsers);
         System.out.println(createTableProduct);
         System.out.println(createTableOrder);
