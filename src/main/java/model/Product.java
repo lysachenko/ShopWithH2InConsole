@@ -9,6 +9,9 @@ public class Product {
     private float price;
     private int amount;
 
+    public Product() {
+    }
+
     public Product(long id, String name, String description, float price, int amount) {
         this.id = id;
         this.name = name;

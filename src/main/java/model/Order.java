@@ -8,6 +8,9 @@ public class Order {
     private OrderStatus orderStatus;
     private Map<Product, Integer> positionMap;
 
+    public Order() {
+    }
+
     public Order(long id, User user, OrderStatus orderStatus, Map<Product, Integer> positionMap) {
         this.id = id;
         this.user = user;
