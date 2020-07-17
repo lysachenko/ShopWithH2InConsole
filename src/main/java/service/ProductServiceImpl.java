@@ -12,7 +12,7 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductDao productDao = ProductDaoImpl.getInstance();
 
-    public ProductServiceImpl() {
+    private ProductServiceImpl() {
     }
 
     public static ProductService getInstance() {
