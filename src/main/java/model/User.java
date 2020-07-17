@@ -9,6 +9,9 @@ public class User {
     private UserRole role;
     private boolean isActive;
 
+    public User() {
+    }
+
     public User(long id, String username, String password, UserRole role, boolean isActive) {
         this.id = id;
         this.username = username;
