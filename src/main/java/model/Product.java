@@ -9,6 +9,9 @@ public class Product {
     private float price;
     private int amount;
 
+    public Product() {
+    }
+
     public Product(long id, String name, String description, float price, int amount) {
         this.id = id;
         this.name = name;
@@ -75,5 +78,14 @@ public class Product {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        return "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", amount=" + amount;
     }
 }

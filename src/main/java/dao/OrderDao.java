@@ -1,6 +1,7 @@
 package dao;
 
 import model.Order;
+import model.User;
 
 import java.util.List;
 
@@ -12,9 +13,9 @@ public interface OrderDao {
 
     void delete(Order order);
 
-    Order getById(long id);
+    Order findById(long id);
 
-    List<Order> getOrdersByUserId(long id);
+    List<Order> findOrdersByUser(User user);
 
-    List<Order> getAll();
+    List<Order> findAll();
 }
