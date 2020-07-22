@@ -39,14 +39,10 @@ public class CreateTableUtil {
                     + " primary key (order_id, product_id));";
 
     public void run() {
-        createTables();
+        create();
     }
 
-    private static void createTables() {
-        System.out.println(createTableUsers);
-        System.out.println(createTableProduct);
-        System.out.println(createTableOrder);
-        System.out.println(createTableProductList);
+    private static void create() {
         try (Connection connection = H2JDBCUtil.getConnection();
              Statement statement = connection.createStatement()
         ) {

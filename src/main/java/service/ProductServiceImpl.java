@@ -1,23 +1,14 @@
 package service;
 
 import dao.ProductDao;
-import dao.ProductDaoImpl;
+import dao.impl.ProductDaoImpl;
 import model.Product;
 
 import java.util.List;
 
 public class ProductServiceImpl implements ProductService {
 
-    private static final ProductService productService = new ProductServiceImpl();
-
-    private final ProductDao productDao = ProductDaoImpl.getInstance();
-
-    private ProductServiceImpl() {
-    }
-
-    public static ProductService getInstance() {
-        return productService;
-    }
+    private final ProductDao productDao = new ProductDaoImpl();
 
     @Override
     public void save(Product product) {

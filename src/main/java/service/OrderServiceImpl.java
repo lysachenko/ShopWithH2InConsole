@@ -1,7 +1,7 @@
 package service;
 
 import dao.OrderDao;
-import dao.OrderDaoIml;
+import dao.impl.OrderDaoImpl;
 import model.Order;
 import model.Product;
 import model.User;
@@ -10,16 +10,7 @@ import java.util.List;
 
 public class OrderServiceImpl implements OrderService {
 
-    private static final OrderService orderService = new OrderServiceImpl();
-
-    private final OrderDao orderDao = OrderDaoIml.getInstance();
-
-    private OrderServiceImpl() {
-    }
-
-    public static OrderService getInstance() {
-        return orderService;
-    }
+    private final OrderDao orderDao = new OrderDaoImpl();
 
     @Override
     public void save(Order order) {

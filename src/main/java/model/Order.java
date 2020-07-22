@@ -49,4 +49,14 @@ public class Order {
     public void setPositionMap(Map<Product, Integer> positionMap) {
         this.positionMap = positionMap;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", user=" + user +
+                ", orderStatus=" + orderStatus +
+                ", positionMap=" + positionMap +
+                '}';
+    }
 }
