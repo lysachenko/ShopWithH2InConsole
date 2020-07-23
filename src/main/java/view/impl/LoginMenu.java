@@ -5,6 +5,7 @@ import model.UserRole;
 import service.UserService;
 import service.UserServiceImpl;
 import view.Menu;
+import view.impl.user.UserMainMenu;
 
 import java.util.Scanner;
 
@@ -23,23 +24,23 @@ public class LoginMenu implements Menu {
 
             scanner = new Scanner(System.in);
 
-            int choice = scanner.nextInt();
+            String choice = scanner.next();
 
             switch (choice) {
-                case 1:
+                case "1":
                     loginSubMenu(scanner);
                     break;
-                case 2:
+                case "2":
                     registerSubMenu(scanner);
                     break;
-                case 0:
+                case "0":
                     exit();
                     break;
             }
         }
     }
 
-    @Override
+    //@Override
     public void exit() {
         System.exit(0);
     }

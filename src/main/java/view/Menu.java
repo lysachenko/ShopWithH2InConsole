@@ -3,7 +3,7 @@ package view;
 public interface Menu {
     void show();
 
-    void exit();
+    //void exit();
 
     default void showItems(String[] items) {
         for (String item : items) {

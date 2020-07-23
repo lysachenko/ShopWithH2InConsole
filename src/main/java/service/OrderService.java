@@ -8,6 +8,10 @@ import java.util.List;
 
 public interface OrderService {
 
+    void create(User user);
+
+    void changeOrderStatus(String orderStatus);
+
     void save(Order order);
 
     void update(Order order);
