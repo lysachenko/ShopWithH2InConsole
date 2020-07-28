@@ -82,7 +82,7 @@ public class UserProductMenu implements Menu {
                 if (product == null) {
                     System.out.println("This product does not exist! Try again.");
                 }
-            } while (productService.findById(productId) == null);
+            } while (product == null);
 
             do {
                 System.out.print("Enter amount: ");
