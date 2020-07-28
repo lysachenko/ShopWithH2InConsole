@@ -5,12 +5,15 @@ import model.OrderStatus;
 import model.User;
 import service.OrderService;
 import service.OrderServiceImpl;
+import service.ProductService;
+import service.ProductServiceImpl;
 import util.ScannerUtil;
 import view.Menu;
 
 public class UserOrderMenu implements Menu {
 
     private OrderService orderService = new OrderServiceImpl();
+    private ProductService productService = new ProductServiceImpl();
     private String[] items = {
             "1. Show my orders",
             "2. Reject order",
@@ -51,10 +54,18 @@ public class UserOrderMenu implements Menu {
             System.out.println("Enter order ID to change status: ");
             orderId = ScannerUtil.getLong();
             order = orderService.findById(orderId);
+
             if (order == null) {
                 System.out.println("Incorrect order! Try again.");
             }
         } while (order == null);
+
+        //Увеличение при отмене заказа
+        order.getPositionMap().forEach((product, amount) -> {
+                    product.setAmount(product.getAmount() + amount);
+                    productService.update(product);
+                }
+        );
         orderService.changeOrderStatus(order, OrderStatus.REJECTED.toString());
     }
 

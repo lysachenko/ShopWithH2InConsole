@@ -74,10 +74,12 @@ public class UserProductMenu implements Menu {
         while (isOneMore) {
             long productId;
             int amount;
+            Product product;
             do {
                 System.out.print("Enter ID of product what you want to buy: ");
                 productId = ScannerUtil.getLong();
-                if (productService.findById(productId) == null) {
+                product = productService.findById(productId);
+                if (product == null) {
                     System.out.println("This product does not exist! Try again.");
                 }
             } while (productService.findById(productId) == null);
@@ -85,11 +87,14 @@ public class UserProductMenu implements Menu {
             do {
                 System.out.print("Enter amount: ");
                 amount = ScannerUtil.getInt();
-                if (amount <= 0 || productService.findById(productId).getAmount() < amount) {
+                if (amount <= 0 || product.getAmount() < amount) {
                     System.out.println("Incorrect amount! Try again.");
                 }
-            } while (amount <= 0 || productService.findById(productId).getAmount() < amount);
-            positionMap.put(productService.findById(productId), amount);
+            } while (amount <= 0 || product.getAmount() < amount);
+            positionMap.put(product, amount);
+            //Уменьшение количества товара на указанное пользователём количество
+            product.setAmount(product.getAmount() - amount);
+            productService.update(product);
 
             System.out.print("Anything else? (Y - yes, (another key) - no) : ");
             String choice = scanner.next();
