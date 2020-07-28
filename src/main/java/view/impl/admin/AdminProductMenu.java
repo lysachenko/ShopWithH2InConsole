@@ -77,6 +77,7 @@ public class AdminProductMenu implements Menu {
     private void updateProduct() {
         long productId;
         Product product;
+        showProducts();
         do {
             System.out.print("Enter product ID: ");
             productId = ScannerUtil.getLong();
@@ -88,7 +89,6 @@ public class AdminProductMenu implements Menu {
 
         boolean isOneMore = true;
 
-        showProducts();
         while (isOneMore) {
             System.out.print("What you want to update? ");
             System.out.println("\n1. Product name" +
@@ -112,7 +112,6 @@ public class AdminProductMenu implements Menu {
                     break;
             }
             System.out.print("Anything else? (Y - yes, N - no): ");
-            scanner.nextLine();
             String choice = scanner.nextLine();
             isOneMore = choice.equals("Y") || choice.equals("y");
         }
