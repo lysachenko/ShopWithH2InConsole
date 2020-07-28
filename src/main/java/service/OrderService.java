@@ -5,12 +5,13 @@ import model.Product;
 import model.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderService {
 
-    void create(User user);
+    void createOrder(User user, Map<Product, Integer> positionMap);
 
-    void changeOrderStatus(String orderStatus);
+    void changeOrderStatus(Order order, String orderStatus);
 
     void save(Order order);
 

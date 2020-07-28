@@ -1,21 +1,25 @@
-package view.impl.user;
-
+package view.impl.admin;
 
 import model.User;
 import util.ScannerUtil;
 import view.Menu;
 
-public class UserMainMenu implements Menu {
+public class AdminMainMenu implements Menu {
 
     private String[] items = {
             "1. Show my profile",
-            "2. Product menu",
+            "2. User menu",
             "3. Order menu",
+            "4. Product menu",
             "0. Exit"};
     private User user;
 
-    public UserMainMenu(User user) {
+    public AdminMainMenu(User user) {
         this.user = user;
+    }
+
+    private void showUserProfile() {
+        System.out.println(user.toString());
     }
 
     @Override
@@ -32,18 +36,17 @@ public class UserMainMenu implements Menu {
                     showUserProfile();
                     break;
                 case 2:
-                    new UserProductMenu(user).show();
+                    new AdminUserMenu().show();
                     break;
                 case 3:
-                    new UserOrderMenu(user).show();
+                    new AdminOrderMenu().show();
+                    break;
+                case 4:
+                    new AdminProductMenu().show();
                     break;
                 case 0:
                     return;
             }
         }
-    }
-
-    private void showUserProfile() {
-        System.out.println(user.toString());
     }
 }

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Order {
     private long id;
@@ -56,7 +57,12 @@ public class Order {
                 "id=" + id +
                 ", user=" + user +
                 ", orderStatus=" + orderStatus +
-                ", positionMap=" + positionMap +
-                '}';
+                ", \npositions: " +
+                positionMap.entrySet().stream()
+                        .map(productIntegerEntry ->
+                                "\n\t Product: " + productIntegerEntry.getKey().toString()
+                                        + ", amount: " + productIntegerEntry.getValue().toString())
+                        .collect(Collectors.joining())
+                + '}';
     }
 }
