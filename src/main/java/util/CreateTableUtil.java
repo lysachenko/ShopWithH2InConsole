@@ -38,6 +38,10 @@ public class CreateTableUtil {
                     + " foreign key (product_id) references products(id) on delete cascade,"
                     + " primary key (order_id, product_id));";
 
+    private static final String insertAdminUser =
+            "merge into users(ID, USERNAME, PASSWORD, ROLE, IS_ACTIVE)" +
+                    "key(ID) values (1, 'admin', 'admin', 'ADMIN', true)";
+
     public void run() {
         create();
     }
@@ -50,6 +54,7 @@ public class CreateTableUtil {
             statement.execute(createTableProduct);
             statement.execute(createTableOrder);
             statement.execute(createTableProductList);
+            statement.execute(insertAdminUser);
         } catch (SQLException e) {
             e.printStackTrace();
         }
