@@ -122,7 +122,7 @@ public class AdminProductMenu implements Menu {
 
     private void deleteProduct() {
         System.out.println("Product deleting!");
-        System.out.println("Enter product ID what you want to delete: ");
+        System.out.print("Enter product ID what you want to delete: ");
         long productId = ScannerUtil.getLong();
         Product product = productService.findById(productId);
         if (product != null) {
