@@ -53,14 +53,12 @@ public class UserProfileMenu implements Menu {
     }
 
     private void changePassword() {
-        String newPassword;
         System.out.println("Changing password!");
         System.out.print("Enter old password: ");
         String oldPassword = scanner.nextLine();
         if (oldPassword.equals(user.getPassword())) {
             System.out.print("Enter new password: ");
-            newPassword = scanner.nextLine();
-            user.setPassword(newPassword);
+            user.setPassword(scanner.nextLine());
             userService.update(user);
             System.out.println("Password updated!");
         } else {
