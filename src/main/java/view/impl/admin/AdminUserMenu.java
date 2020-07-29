@@ -17,6 +17,7 @@ public class AdminUserMenu implements Menu {
             "2. Block user",
             "3. Unblock user",
             "4. Change user role",
+            "5. Change user password",
             "0. Exit"};
     private Scanner scanner = new Scanner(System.in);
 
@@ -42,9 +43,27 @@ public class AdminUserMenu implements Menu {
                 case 4:
                     changeUserRole();
                     break;
+                case 5:
+                    changeUserPassword();
+                    break;
                 case 0:
                     return;
             }
+        }
+    }
+
+    private void changeUserPassword() {
+        System.out.println("Changing password!");
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        User user = userService.findByName(username);
+        if (user != null) {
+            System.out.print("Enter new password: ");
+            user.setPassword(scanner.nextLine());
+            userService.update(user);
+            System.out.println("User password updated!");
+        } else {
+            System.out.println("User with username " + username + " does not exist!");
         }
     }
 
