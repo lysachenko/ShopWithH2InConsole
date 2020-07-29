@@ -13,16 +13,6 @@ public class UserInserter {
                     "select 3, 'user2', 'user2', 'CUSTOMER', false \n" +
                     ") x where not exists(select * from users);";
 
-    private static final String insertAdminUser =
-            "merge into users(ID, USERNAME, PASSWORD, ROLE, IS_ACTIVE)" +
-                    "key(ID) values (1, 'admin', 'admin', 'ADMIN', true)";
-    private static final String insertActiveUser =
-            "merge into users(ID, USERNAME, PASSWORD, ROLE, IS_ACTIVE)" +
-                    "key(ID) values (2, 'user1', 'user1', 'CUSTOMER', true)";
-    private static final String insertInactiveUser =
-            "merge into users(ID, USERNAME, PASSWORD, ROLE, IS_ACTIVE)" +
-                    "key(ID) values (3, 'user2', 'user2', 'CUSTOMER', false)";
-
     public void insert() {
         insertTestValues();
     }
