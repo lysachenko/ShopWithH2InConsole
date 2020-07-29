@@ -42,6 +42,9 @@ public class AdminProductMenu implements Menu {
                 case 4:
                     updateProduct();
                     break;
+                case 5:
+                    deleteProduct();
+                    break;
                 case 0:
                     return;
             }
@@ -117,9 +120,21 @@ public class AdminProductMenu implements Menu {
         }
     }
 
+    private void deleteProduct() {
+        System.out.println("Product deleting!");
+        System.out.println("Enter product ID what you want to delete: ");
+        long productId = ScannerUtil.getLong();
+        Product product = productService.findById(productId);
+        if (product != null) {
+            productService.delete(product);
+            System.out.println("Product with ID: " + productId + " was deleted!");
+        } else {
+            System.out.println("Product with ID: " + productId + " does not exist!");
+        }
+    }
+
     private void updateProductName(Product product) {
         System.out.print("Enter product name: ");
-        scanner.nextLine();
         product.setName(scanner.nextLine());
         productService.update(product);
     }
@@ -134,7 +149,6 @@ public class AdminProductMenu implements Menu {
         product.setPrice(enterProductPrice());
         productService.update(product);
     }
-
 
     private void updateProductAmount(Product product) {
         product.setAmount(enterProductAmount());
