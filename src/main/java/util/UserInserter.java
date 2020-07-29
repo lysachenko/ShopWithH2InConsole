@@ -6,6 +6,13 @@ import java.sql.Statement;
 
 public class UserInserter {
 
+    private static final String insertTestUsers =
+            "insert into users select * from (\n" +
+                    "select 1, 'admin', 'adminpass', 'ADMIN', true union\n" +
+                    "select 2, 'user1', 'user1', 'CUSTOMER', true union\n" +
+                    "select 3, 'user2', 'user2', 'CUSTOMER', false \n" +
+                    ") x where not exists(select * from users);";
+
     private static final String insertAdminUser =
             "merge into users(ID, USERNAME, PASSWORD, ROLE, IS_ACTIVE)" +
                     "key(ID) values (1, 'admin', 'admin', 'ADMIN', true)";
@@ -24,9 +31,7 @@ public class UserInserter {
         try (Connection connection = H2JDBCUtil.getConnection();
              Statement statement = connection.createStatement()
         ) {
-            statement.execute(insertAdminUser);
-            statement.execute(insertActiveUser);
-            statement.execute(insertInactiveUser);
+            statement.execute(insertTestUsers);
         } catch (SQLException e) {
             e.printStackTrace();
         }
