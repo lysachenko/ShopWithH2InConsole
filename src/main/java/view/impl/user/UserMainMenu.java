@@ -8,7 +8,7 @@ import view.Menu;
 public class UserMainMenu implements Menu {
 
     private String[] items = {
-            "1. Show my profile",
+            "1. Profile menu",
             "2. Product menu",
             "3. Order menu",
             "0. Exit"};
@@ -29,7 +29,7 @@ public class UserMainMenu implements Menu {
 
             switch (choice) {
                 case 1:
-                    showUserProfile();
+                    new UserProfileMenu(user).show();
                     break;
                 case 2:
                     new UserProductMenu(user).show();
@@ -41,9 +41,5 @@ public class UserMainMenu implements Menu {
                     return;
             }
         }
-    }
-
-    private void showUserProfile() {
-        System.out.println(user.toString());
     }
 }
