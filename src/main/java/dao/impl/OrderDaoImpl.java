@@ -26,7 +26,7 @@ public class OrderDaoImpl implements OrderDao {
     private static final String INSERT_ORDER =
             "INSERT INTO orders (user_id, order_status) VALUES (?, ?);";
     private static final String INSERT_PRODUCT_LIST =
-            "INSERT INTO product_list (order_id, product_id, amount) VALUES (?, ?, ?);";
+            "INSERT INTO order_product_list (order_id, product_id, amount) VALUES (?, ?, ?);";
 
     private static final String GET_ALL_ORDERS =
             "select id, user_id, order_status from orders;";
@@ -35,12 +35,12 @@ public class OrderDaoImpl implements OrderDao {
     private static final String GET_ORDERS_BY_USERNAME =
             "select id, user_id, order_status from orders where user_id = ?;";
     private static final String GET_PRODUCT_LIST =
-            "select product_id, amount from product_list where order_id = ?;";
+            "select product_id, amount from order_product_list where order_id = ?;";
 
     private static final String DELETE_ORDER_BY_ID =
             "delete from orders where id = ?;";
     private static final String DELETE_PRODUCT_LIST_BY_ORDER_ID =
-            "delete from product_list where order_id = ?;";
+            "delete from order_product_list where order_id = ?;";
 
     private static final String UPDATE_ORDER_BY_ID =
             "update orders set user_id = ?, order_status = ? where id = ?;";
