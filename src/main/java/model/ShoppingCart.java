@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class ShoppingCart {
 
-    private Map<Product, Integer> positionMap = new HashMap<>();
+    private Map<Product, Integer> positionMap;
 
     public Map<Product, Integer> getPositionMap() {
         return positionMap;
