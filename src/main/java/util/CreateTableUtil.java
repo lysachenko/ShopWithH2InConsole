@@ -29,14 +29,45 @@ public class CreateTableUtil {
                     + " order_status varchar(20),"
                     + " foreign key (user_id) references users(id) on delete cascade);";
 
-    private static final String createTableProductList =
-            "create table if not exists product_list ("
+    private static final String createTableOrderProductList =
+            "create table if not exists order_product_list ("
                     + "order_id integer,"
                     + " product_id integer,"
                     + " amount integer,"
                     + " foreign key (order_id) references orders(id) on delete cascade,"
                     + " foreign key (product_id) references products(id) on delete cascade,"
                     + " primary key (order_id, product_id));";
+
+    private static final String createTableShoppingCart =
+            "create table if not exists shopping_carts ("
+                    + " user_id integer primary key,"
+                    + " foreign key (user_id) references users(id) on delete cascade);";
+
+    private static final String createTableCartProductList =
+            "create table if not exists cart_product_list ("
+                    + "cart_id integer,"
+                    + " product_id integer,"
+                    + " amount integer,"
+                    + " foreign key (cart_id) references shopping_carts(user_id) on delete cascade,"
+                    + " foreign key (product_id) references products(id) on delete cascade,"
+                    + " primary key (cart_id, product_id));";
+
+    private static final String createTablePurchase =
+            "create table if not exists purchases ("
+                    + " id integer primary key,"
+                    + " user_id integer,"
+                    + " card_number varchar(20),"
+                    + " total_sum float,"
+                    + " foreign key (user_id) references users(id) on delete cascade);";
+
+    private static final String createTablePurchaseProductList =
+            "create table if not exists purchase_product_list ("
+                    + "purchase_id integer,"
+                    + " product_id integer,"
+                    + " amount integer,"
+                    + " foreign key (purchase_id) references purchases(id) on delete cascade,"
+                    + " foreign key (product_id) references products(id) on delete cascade,"
+                    + " primary key (purchase_id, product_id));";
 
     public void run() {
         create();
@@ -49,7 +80,11 @@ public class CreateTableUtil {
             statement.execute(createTableUsers);
             statement.execute(createTableProduct);
             statement.execute(createTableOrder);
-            statement.execute(createTableProductList);
+            statement.execute(createTableOrderProductList);
+            statement.execute(createTableShoppingCart);
+            statement.execute(createTableCartProductList);
+            statement.execute(createTablePurchase);
+            statement.execute(createTablePurchaseProductList);
         } catch (SQLException e) {
             e.printStackTrace();
         }
