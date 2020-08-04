@@ -13,7 +13,7 @@ public class OrderInserter {
                     "select 3, 3, 'PRE_CHECKOUT'\n" +
                     ") x where not exists(select * from ORDERS);";
     private final String insertTestProductList =
-            "insert into PRODUCT_LIST select * from (\n" +
+            "insert into ORDER_PRODUCT_LIST select * from (\n" +
                     "select 1, 2, 100 union\n" +
                     "select 1, 1, 50 union\n" +
                     "select 1, 3, 300 union\n" +
@@ -23,7 +23,7 @@ public class OrderInserter {
                     "select 3, 7, 232 union\n" +
                     "select 3, 8, 12 union\n" +
                     "select 3, 10, 410\n" +
-                    ") x where not exists(select * from PRODUCT_LIST);";
+                    ") x where not exists(select * from ORDER_PRODUCT_LIST);";
 
     public void insert() {
         insertTestValues();
