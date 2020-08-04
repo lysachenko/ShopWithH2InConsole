@@ -5,9 +5,9 @@ import java.util.Map;
 public class Purchase {
 
     private long id;
+    private User user;
     private Map<Product, Integer> positionMap;
     private String cardNumber;
-    private float totalSum;
 
     public long getId() {
         return id;
@@ -15,6 +15,14 @@ public class Purchase {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Map<Product, Integer> getPositionMap() {
@@ -34,10 +42,9 @@ public class Purchase {
     }
 
     public float getTotalSum() {
-        return totalSum;
-    }
-
-    public void setTotalSum(float totalSum) {
-        this.totalSum = totalSum;
+        return (float) positionMap.entrySet().stream()
+                .mapToDouble(productAmountEntry ->
+                        productAmountEntry.getKey().getPrice() * productAmountEntry.getValue())
+                .sum();
     }
 }

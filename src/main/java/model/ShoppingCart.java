@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 public class ShoppingCart {
 
     private User user;
-    private Map<Product, Integer> positionMap;
+    private volatile Map<Product, Integer> positionMap;
 
     public User getUser() {
         return user;
