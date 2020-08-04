@@ -19,7 +19,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setUser(user);
         order.setPositionMap(positionMap);
-        order.setOrderStatus(OrderStatus.PRE_CHECKOUT);
+        order.setStatus(OrderStatus.PRE_CHECKOUT);
         orderDao.save(order);
     }
 
@@ -31,7 +31,7 @@ public class OrderServiceImpl implements OrderService {
                 || OrderStatus.DONE.toString().equals(orderStatus)
                 || OrderStatus.REJECTED.toString().equals(orderStatus)
         ) {
-            order.setOrderStatus(OrderStatus.valueOf(orderStatus));
+            order.setStatus(OrderStatus.valueOf(orderStatus));
             orderDao.update(order);
         } else {
             System.out.println("Incorrect order status!");

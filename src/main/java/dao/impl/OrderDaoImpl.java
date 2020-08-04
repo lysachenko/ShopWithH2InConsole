@@ -53,7 +53,7 @@ public class OrderDaoImpl implements OrderDao {
              PreparedStatement preparedStatement2 = connection.prepareStatement(INSERT_PRODUCT_LIST)
         ) {
             preparedStatement.setLong(1, order.getUser().getId());
-            preparedStatement.setString(2, String.valueOf(order.getOrderStatus()));
+            preparedStatement.setString(2, String.valueOf(order.getStatus()));
             preparedStatement.executeUpdate();
 
             ResultSet gk = preparedStatement.getGeneratedKeys();
@@ -74,7 +74,7 @@ public class OrderDaoImpl implements OrderDao {
              PreparedStatement preparedStatement3 = connection.prepareStatement(INSERT_PRODUCT_LIST)
         ) {
             preparedStatement.setLong(1, order.getUser().getId());
-            preparedStatement.setString(2, String.valueOf(order.getOrderStatus()));
+            preparedStatement.setString(2, String.valueOf(order.getStatus()));
             preparedStatement.setLong(3, order.getId());
 
             deleteProductListFromDB(order, preparedStatement2);
@@ -114,7 +114,7 @@ public class OrderDaoImpl implements OrderDao {
                 order = new Order();
                 order.setId(rs1.getLong("id"));
                 order.setUser(userDao.findById(rs1.getLong("user_id")));
-                order.setOrderStatus(OrderStatus.valueOf(rs1.getString("order_status")));
+                order.setStatus(OrderStatus.valueOf(rs1.getString("order_status")));
                 order.setPositionMap(getPositionMapFromDB(preparedStatement2, order));
             }
         } catch (SQLException e) {
@@ -137,7 +137,7 @@ public class OrderDaoImpl implements OrderDao {
                 Order order = new Order();
                 order.setId(rs.getLong("id"));
                 order.setUser(userDao.findById(rs.getLong("user_id")));
-                order.setOrderStatus(OrderStatus.valueOf(rs.getString("order_status")));
+                order.setStatus(OrderStatus.valueOf(rs.getString("order_status")));
                 order.setPositionMap(getPositionMapFromDB(preparedStatement2, order));
 
                 orders.add(order);
@@ -161,7 +161,7 @@ public class OrderDaoImpl implements OrderDao {
                 Order order = new Order();
                 order.setId(rs1.getLong("id"));
                 order.setUser(userDao.findById(rs1.getLong("user_id")));
-                order.setOrderStatus(OrderStatus.valueOf(rs1.getString("order_status")));
+                order.setStatus(OrderStatus.valueOf(rs1.getString("order_status")));
                 order.setPositionMap(getPositionMapFromDB(preparedStatement2, order));
 
                 orders.add(order);

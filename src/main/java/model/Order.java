@@ -6,16 +6,16 @@ import java.util.stream.Collectors;
 public class Order {
     private long id;
     private User user;
-    private OrderStatus orderStatus;
+    private OrderStatus status;
     private Map<Product, Integer> positionMap;
 
     public Order() {
     }
 
-    public Order(long id, User user, OrderStatus orderStatus, Map<Product, Integer> positionMap) {
+    public Order(long id, User user, OrderStatus status, Map<Product, Integer> positionMap) {
         this.id = id;
         this.user = user;
-        this.orderStatus = orderStatus;
+        this.status = status;
         this.positionMap = positionMap;
     }
 
@@ -35,12 +35,12 @@ public class Order {
         this.user = user;
     }
 
-    public OrderStatus getOrderStatus() {
-        return orderStatus;
+    public OrderStatus getStatus() {
+        return status;
     }
 
-    public void setOrderStatus(OrderStatus orderStatus) {
-        this.orderStatus = orderStatus;
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
 
     public Map<Product, Integer> getPositionMap() {
@@ -56,7 +56,7 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", user=" + user +
-                ", orderStatus=" + orderStatus +
+                ", orderStatus=" + status +
                 ", \npositions: " +
                 positionMap.entrySet().stream()
                         .map(productIntegerEntry ->
