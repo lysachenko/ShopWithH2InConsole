@@ -5,17 +5,8 @@ import java.util.stream.Collectors;
 
 public class ShoppingCart {
 
-    private long id;
     private User user;
     private Map<Product, Integer> positionMap;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public User getUser() {
         return user;
