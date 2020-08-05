@@ -3,8 +3,6 @@ package dao;
 import model.ShoppingCart;
 import model.User;
 
-import java.util.List;
-
 public interface ShoppingCartDao {
 
     void save(ShoppingCart shoppingCart);
@@ -13,5 +11,5 @@ public interface ShoppingCartDao {
 
     void delete(ShoppingCart shoppingCart);
 
-    List<ShoppingCart> findShoppingCartByUser(User user);
+    ShoppingCart findShoppingCartByUser(User user);
 }
