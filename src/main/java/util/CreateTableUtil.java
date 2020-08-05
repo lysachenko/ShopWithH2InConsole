@@ -40,17 +40,17 @@ public class CreateTableUtil {
 
     private static final String createTableShoppingCart =
             "create table if not exists shopping_carts ("
-                    + " user_id integer primary key,"
-                    + " foreign key (user_id) references users(id) on delete cascade);";
+                    + " user_cart_id integer primary key,"
+                    + " foreign key (user_cart_id) references users(id) on delete cascade);";
 
     private static final String createTableCartProductList =
             "create table if not exists cart_product_list ("
-                    + "cart_id integer,"
+                    + "user_cart_id integer,"
                     + " product_id integer,"
                     + " amount integer,"
-                    + " foreign key (cart_id) references shopping_carts(user_id) on delete cascade,"
+                    + " foreign key (user_cart_id) references shopping_carts(user_cart_id) on delete cascade,"
                     + " foreign key (product_id) references products(id) on delete cascade,"
-                    + " primary key (cart_id, product_id));";
+                    + " primary key (user_cart_id, product_id));";
 
     private static final String createTablePurchase =
             "create table if not exists purchases ("
