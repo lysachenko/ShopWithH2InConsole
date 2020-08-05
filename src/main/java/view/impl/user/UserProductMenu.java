@@ -3,9 +3,9 @@ package view.impl.user;
 import model.Product;
 import model.User;
 import service.OrderService;
-import service.OrderServiceImpl;
+import service.impl.OrderServiceImpl;
 import service.ProductService;
-import service.ProductServiceImpl;
+import service.impl.ProductServiceImpl;
 import util.ScannerUtil;
 import view.Menu;
 

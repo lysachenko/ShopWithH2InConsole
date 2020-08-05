@@ -4,9 +4,9 @@ import model.Order;
 import model.OrderStatus;
 import model.User;
 import service.OrderService;
-import service.OrderServiceImpl;
+import service.impl.OrderServiceImpl;
 import service.ProductService;
-import service.ProductServiceImpl;
+import service.impl.ProductServiceImpl;
 import util.ScannerUtil;
 import view.Menu;
 

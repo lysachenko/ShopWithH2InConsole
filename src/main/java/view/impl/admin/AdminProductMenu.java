@@ -2,7 +2,7 @@ package view.impl.admin;
 
 import model.Product;
 import service.ProductService;
-import service.ProductServiceImpl;
+import service.impl.ProductServiceImpl;
 import util.ScannerUtil;
 import view.Menu;
 

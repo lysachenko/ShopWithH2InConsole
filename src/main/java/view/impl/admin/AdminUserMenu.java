@@ -3,7 +3,7 @@ package view.impl.admin;
 import model.User;
 import model.UserRole;
 import service.UserService;
-import service.UserServiceImpl;
+import service.impl.UserServiceImpl;
 import util.ScannerUtil;
 import view.Menu;
 

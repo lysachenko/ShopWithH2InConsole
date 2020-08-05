@@ -1,9 +1,10 @@
-package service;
+package service.impl;
 
 import dao.UserDao;
 import dao.impl.UserDaoImpl;
 import model.User;
 import model.UserRole;
+import service.UserService;
 
 import java.util.List;
 

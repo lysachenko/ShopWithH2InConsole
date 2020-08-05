@@ -2,7 +2,7 @@ package view.impl.user;
 
 import model.User;
 import service.UserService;
-import service.UserServiceImpl;
+import service.impl.UserServiceImpl;
 import util.ScannerUtil;
 import view.Menu;
 
