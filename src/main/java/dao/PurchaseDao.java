@@ -17,5 +17,5 @@ public interface PurchaseDao {
 
     Purchase findById(long id);
 
-    List<Purchase> findFindByUser(User user);
+    List<Purchase> findByUser(User user);
 }

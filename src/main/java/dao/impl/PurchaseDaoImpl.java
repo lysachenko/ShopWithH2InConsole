@@ -146,7 +146,7 @@ public class PurchaseDaoImpl implements PurchaseDao {
     }
 
     @Override
-    public List<Purchase> findFindByUser(User user) {
+    public List<Purchase> findByUser(User user) {
         List<Purchase> purchases = new ArrayList<>();
         try (Connection connection = H2JDBCUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_PURCHASE_BY_USERNAME)
