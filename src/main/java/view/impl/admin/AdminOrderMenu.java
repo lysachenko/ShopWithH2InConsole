@@ -67,7 +67,7 @@ public class AdminOrderMenu implements Menu {
         String status = null;
         do {
             System.out.println("Order status list: "
-                    + "\n 1:" + OrderStatus.PRE_CHECKOUT.toString()
+                    + "\n 1:" + OrderStatus.PRE_CHECK_OUT.toString()
                     + "\n 2:" + OrderStatus.CHECKED_OUT.toString()
                     + "\n 3:" + OrderStatus.SENT.toString()
                     + "\n 4:" + OrderStatus.DELIVERED.toString()
@@ -79,7 +79,7 @@ public class AdminOrderMenu implements Menu {
             statusId = ScannerUtil.getInt();
             switch (statusId) {
                 case 1:
-                    status = OrderStatus.PRE_CHECKOUT.toString();
+                    status = OrderStatus.PRE_CHECK_OUT.toString();
                     break;
                 case 2:
                     status = OrderStatus.CHECKED_OUT.toString();

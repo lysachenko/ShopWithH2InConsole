@@ -20,13 +20,13 @@ public class OrderServiceImpl implements OrderService {
         Order order = new Order();
         order.setUser(user);
         order.setPositionMap(positionMap);
-        order.setStatus(OrderStatus.PRE_CHECKOUT);
+        order.setStatus(OrderStatus.PRE_CHECK_OUT);
         orderDao.save(order);
     }
 
     @Override
     public void changeOrderStatus(Order order, String orderStatus) {
-        if (OrderStatus.PRE_CHECKOUT.toString().equals(orderStatus)
+        if (OrderStatus.PRE_CHECK_OUT.toString().equals(orderStatus)
                 || OrderStatus.CHECKED_OUT.toString().equals(orderStatus)
                 || OrderStatus.SENT.toString().equals(orderStatus)
                 || OrderStatus.DONE.toString().equals(orderStatus)

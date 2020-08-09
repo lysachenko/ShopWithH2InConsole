@@ -53,7 +53,7 @@ public class UserOrderMenu implements Menu {
         Order order;
 
         showMyOrders();
-        System.out.println("Enter order ID to change status: ");
+        System.out.print("Enter order ID to change status: ");
         orderId = ScannerUtil.getLong();
         order = orderService.findById(orderId);
 
@@ -62,7 +62,7 @@ public class UserOrderMenu implements Menu {
             return;
         }
 
-        if (order.getStatus().equals(OrderStatus.PRE_CHECKOUT)
+        if (order.getStatus().equals(OrderStatus.PRE_CHECK_OUT)
                 || order.getStatus().equals(OrderStatus.CHECKED_OUT)
         ) {
             //Увеличение при отмене заказа
@@ -72,6 +72,9 @@ public class UserOrderMenu implements Menu {
                     }
             );
             orderService.changeOrderStatus(order, OrderStatus.REJECTED.toString());
+            System.out.println("Order rejected!");
+        } else if (order.getStatus().equals(OrderStatus.REJECTED)) {
+            System.out.println("Order already rejected!");
         } else {
             System.out.println("You cannot reject your order at this stage!");
             System.out.println("Please call the shop administrator to resolve the issue.");
