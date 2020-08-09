@@ -7,19 +7,20 @@ import service.impl.UserServiceImpl;
 import util.ScannerUtil;
 import view.Menu;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class AdminUserMenu implements Menu {
 
-    private UserService userService = new UserServiceImpl();
-    private String[] items = {
+    private final UserService userService = new UserServiceImpl();
+    private final String[] items = {
             "1. Show users",
             "2. Block user",
             "3. Unblock user",
             "4. Change user role",
             "5. Change user password",
             "0. Exit"};
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     @Override
     public void show() {
@@ -102,7 +103,12 @@ public class AdminUserMenu implements Menu {
 
     private void showUsers() {
         System.out.println("List of users: ");
-        userService.findAll().forEach(System.out::println);
+        List<User> userList = userService.findAll();
+        if (userList.isEmpty()) {
+            System.out.println("User list is empty!");
+        } else {
+            userList.forEach(System.out::println);
+        }
     }
 
     private void blockUser() {

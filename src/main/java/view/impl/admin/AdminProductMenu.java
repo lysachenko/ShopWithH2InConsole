@@ -6,19 +6,20 @@ import service.impl.ProductServiceImpl;
 import util.ScannerUtil;
 import view.Menu;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class AdminProductMenu implements Menu {
 
-    private ProductService productService = new ProductServiceImpl();
-    private String[] items = {
+    private final ProductService productService = new ProductServiceImpl();
+    private final String[] items = {
             "1. Show all products",
             "2. Find products by name",
             "3. Add product",
             "4. Update product",
             "5. Delete product",
             "0. Exit"};
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     @Override
     public void show() {
@@ -52,13 +53,23 @@ public class AdminProductMenu implements Menu {
     }
 
     private void showProducts() {
-        productService.findAll().forEach(System.out::println);
+        List<Product> productList = productService.findAll();
+        if (productList.isEmpty()) {
+            System.out.println("Product list is empty!");
+        } else {
+            productList.forEach(System.out::println);
+        }
     }
 
     private void showProductsByName() {
         System.out.print("Enter product name: ");
         String productName = scanner.next();
-        productService.findByName(productName).forEach(System.out::println);
+        List<Product> productList = productService.findByName(productName);
+        if (productList.isEmpty()) {
+            System.out.println("No matches!");
+        } else {
+            productList.forEach(System.out::println);
+        }
     }
 
     private void createProduct() {
@@ -81,14 +92,14 @@ public class AdminProductMenu implements Menu {
         long productId;
         Product product;
         showProducts();
-        do {
-            System.out.print("Enter product ID: ");
-            productId = ScannerUtil.getLong();
-            product = productService.findById(productId);
-            if (product == null) {
-                System.out.println("Incorrect product ID! Try again.");
-            }
-        } while (product == null);
+
+        System.out.print("Enter product ID: ");
+        productId = ScannerUtil.getLong();
+        product = productService.findById(productId);
+        if (product == null) {
+            System.out.println("Incorrect product ID! Try again.");
+            return;
+        }
 
         boolean isOneMore = true;
 

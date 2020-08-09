@@ -5,15 +5,15 @@ import java.util.stream.Collectors;
 
 public class ShoppingCart {
 
-    private User user;
+    private final User user;
     private volatile Map<Product, Integer> positionMap;
+
+    public ShoppingCart(User user) {
+        this.user = user;
+    }
 
     public User getUser() {
         return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Map<Product, Integer> getPositionMap() {

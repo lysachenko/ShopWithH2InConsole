@@ -4,17 +4,19 @@ import model.Order;
 import model.OrderStatus;
 import model.User;
 import service.OrderService;
-import service.impl.OrderServiceImpl;
 import service.ProductService;
+import service.impl.OrderServiceImpl;
 import service.impl.ProductServiceImpl;
 import util.ScannerUtil;
 import view.Menu;
 
+import java.util.List;
+
 public class UserOrderMenu implements Menu {
 
-    private OrderService orderService = new OrderServiceImpl();
-    private ProductService productService = new ProductServiceImpl();
-    private String[] items = {
+    private final OrderService orderService = new OrderServiceImpl();
+    private final ProductService productService = new ProductServiceImpl();
+    private final String[] items = {
             "1. Show my orders",
             "2. Reject order",
             "0. Exit"};
@@ -49,16 +51,16 @@ public class UserOrderMenu implements Menu {
     private void rejectOrder() {
         long orderId;
         Order order;
-        do {
-            showMyOrders();
-            System.out.println("Enter order ID to change status: ");
-            orderId = ScannerUtil.getLong();
-            order = orderService.findById(orderId);
 
-            if (order == null) {
-                System.out.println("Incorrect order! Try again.");
-            }
-        } while (order == null);
+        showMyOrders();
+        System.out.println("Enter order ID to change status: ");
+        orderId = ScannerUtil.getLong();
+        order = orderService.findById(orderId);
+
+        if (order == null) {
+            System.out.println("Incorrect order! Try again.");
+            return;
+        }
 
         //Увеличение при отмене заказа
         order.getPositionMap().forEach((product, amount) -> {
@@ -71,6 +73,11 @@ public class UserOrderMenu implements Menu {
 
     private void showMyOrders() {
         System.out.println("My orders:");
-        orderService.findOrdersByUser(user).forEach(System.out::println);
+        List<Order> orderList = orderService.findOrdersByUser(user);
+        if (orderList.isEmpty()) {
+            System.out.println("Order list is empty!");
+        } else {
+            orderService.findOrdersByUser(user).forEach(System.out::println);
+        }
     }
 }

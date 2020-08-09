@@ -20,8 +20,8 @@ import java.util.Map;
 
 public class OrderDaoImpl implements OrderDao {
 
-    private UserDao userDao = new UserDaoImpl();
-    private ProductDao productDao = new ProductDaoImpl();
+    private final UserDao userDao = new UserDaoImpl();
+    private final ProductDao productDao = new ProductDaoImpl();
 
     private static final String INSERT_ORDER =
             "INSERT INTO orders (user_id, order_status) VALUES (?, ?);";
@@ -34,7 +34,7 @@ public class OrderDaoImpl implements OrderDao {
             "select id, user_id, order_status from orders where id = ?;";
     private static final String GET_ORDERS_BY_USERNAME =
             "select id, user_id, order_status from orders where user_id = ?;";
-    private static final String GET_PRODUCT_LIST =
+    private static final String GET_PRODUCT_LIST_BY_ORDER_ID =
             "select product_id, amount from order_product_list where order_id = ?;";
 
     private static final String DELETE_ORDER_BY_ID =
@@ -47,10 +47,8 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void save(Order order) {
-
         try (Connection connection = H2JDBCUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_ORDER, new String[]{"id"});
-             PreparedStatement preparedStatement2 = connection.prepareStatement(INSERT_PRODUCT_LIST)
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_ORDER, new String[]{"id"})
         ) {
             preparedStatement.setLong(1, order.getUser().getId());
             preparedStatement.setString(2, String.valueOf(order.getStatus()));
@@ -60,7 +58,7 @@ public class OrderDaoImpl implements OrderDao {
             if (gk.next()) {
                 order.setId(gk.getLong("id"));
             }
-            insertProductListToDB(order, preparedStatement2);
+            insertProductListToDB(order);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -69,16 +67,14 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public void update(Order order) {
         try (Connection connection = H2JDBCUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ORDER_BY_ID);
-             PreparedStatement preparedStatement2 = connection.prepareStatement(DELETE_PRODUCT_LIST_BY_ORDER_ID);
-             PreparedStatement preparedStatement3 = connection.prepareStatement(INSERT_PRODUCT_LIST)
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_ORDER_BY_ID)
         ) {
             preparedStatement.setLong(1, order.getUser().getId());
             preparedStatement.setString(2, String.valueOf(order.getStatus()));
             preparedStatement.setLong(3, order.getId());
 
-            deleteProductListFromDB(order, preparedStatement2);
-            insertProductListToDB(order, preparedStatement3);
+            deleteProductListFromDB(order);
+            insertProductListToDB(order);
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -89,10 +85,9 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public void delete(Order order) {
         try (Connection connection = H2JDBCUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ORDER_BY_ID);
-             PreparedStatement preparedStatement2 = connection.prepareStatement(DELETE_PRODUCT_LIST_BY_ORDER_ID)
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_ORDER_BY_ID)
         ) {
-            deleteProductListFromDB(order, preparedStatement2);
+            deleteProductListFromDB(order);
             preparedStatement.setLong(1, order.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -104,8 +99,7 @@ public class OrderDaoImpl implements OrderDao {
     public Order findById(long id) {
         Order order = null;
         try (Connection connection = H2JDBCUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_ORDER_BY_ID);
-             PreparedStatement preparedStatement2 = connection.prepareStatement(GET_PRODUCT_LIST)
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ORDER_BY_ID)
         ) {
             preparedStatement.setLong(1, id);
             ResultSet rs1 = preparedStatement.executeQuery();
@@ -115,7 +109,7 @@ public class OrderDaoImpl implements OrderDao {
                 order.setId(rs1.getLong("id"));
                 order.setUser(userDao.findById(rs1.getLong("user_id")));
                 order.setStatus(OrderStatus.valueOf(rs1.getString("order_status")));
-                order.setPositionMap(getPositionMapFromDB(preparedStatement2, order));
+                order.setPositionMap(getPositionMapFromDB(order));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -127,8 +121,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> findOrdersByUser(User user) {
         List<Order> orders = new ArrayList<>();
         try (Connection connection = H2JDBCUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_ORDERS_BY_USERNAME);
-             PreparedStatement preparedStatement2 = connection.prepareStatement(GET_PRODUCT_LIST)
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ORDERS_BY_USERNAME)
         ) {
             preparedStatement.setLong(1, user.getId());
             ResultSet rs = preparedStatement.executeQuery();
@@ -138,7 +131,7 @@ public class OrderDaoImpl implements OrderDao {
                 order.setId(rs.getLong("id"));
                 order.setUser(userDao.findById(rs.getLong("user_id")));
                 order.setStatus(OrderStatus.valueOf(rs.getString("order_status")));
-                order.setPositionMap(getPositionMapFromDB(preparedStatement2, order));
+                order.setPositionMap(getPositionMapFromDB(order));
 
                 orders.add(order);
             }
@@ -152,8 +145,7 @@ public class OrderDaoImpl implements OrderDao {
     public List<Order> findAll() {
         List<Order> orders = new ArrayList<>();
         try (Connection connection = H2JDBCUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_ORDERS);
-             PreparedStatement preparedStatement2 = connection.prepareStatement(GET_PRODUCT_LIST)
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_ORDERS)
         ) {
             ResultSet rs1 = preparedStatement.executeQuery();
 
@@ -162,7 +154,7 @@ public class OrderDaoImpl implements OrderDao {
                 order.setId(rs1.getLong("id"));
                 order.setUser(userDao.findById(rs1.getLong("user_id")));
                 order.setStatus(OrderStatus.valueOf(rs1.getString("order_status")));
-                order.setPositionMap(getPositionMapFromDB(preparedStatement2, order));
+                order.setPositionMap(getPositionMapFromDB(order));
 
                 orders.add(order);
             }
@@ -172,38 +164,54 @@ public class OrderDaoImpl implements OrderDao {
         return orders;
     }
 
-    private void insertProductListToDB(Order order, PreparedStatement preparedStatement) {
-        order.getPositionMap()
-                .forEach((key, value) -> {
-                    try {
-                        preparedStatement.setLong(1, order.getId());
-                        preparedStatement.setLong(2, key.getId());
-                        preparedStatement.setLong(3, value);
-                        preparedStatement.executeUpdate();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                });
+    private void insertProductListToDB(Order order) {
+        try (Connection connection = H2JDBCUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PRODUCT_LIST)
+        ) {
+            order.getPositionMap()
+                    .forEach((product, amount) -> {
+                        try {
+                            preparedStatement.setLong(1, order.getId());
+                            preparedStatement.setLong(2, product.getId());
+                            preparedStatement.setLong(3, amount);
+                            preparedStatement.executeUpdate();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    });
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private Map<Product, Integer> getPositionMapFromDB(
-            PreparedStatement preparedStatement,
             Order order
-    ) throws SQLException {
+    ) {
         Map<Product, Integer> positionMap = new HashMap<>();
+        try (Connection connection = H2JDBCUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_PRODUCT_LIST_BY_ORDER_ID)
+        ) {
+            preparedStatement.setLong(1, order.getId());
+            ResultSet rs = preparedStatement.executeQuery();
 
-        preparedStatement.setLong(1, order.getId());
-        ResultSet rs = preparedStatement.executeQuery();
-
-        while (rs.next()) {
-            positionMap.put(productDao.findById(rs.getLong("product_id")),
-                    rs.getInt("amount"));
+            while (rs.next()) {
+                positionMap.put(productDao.findById(rs.getLong("product_id")),
+                        rs.getInt("amount"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return positionMap;
     }
 
-    private void deleteProductListFromDB(Order order, PreparedStatement preparedStatement) throws SQLException {
-        preparedStatement.setLong(1, order.getId());
-        preparedStatement.executeUpdate();
+    private void deleteProductListFromDB(Order order) {
+        try (Connection connection = H2JDBCUtil.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PRODUCT_LIST_BY_ORDER_ID)
+        ) {
+            preparedStatement.setLong(1, order.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

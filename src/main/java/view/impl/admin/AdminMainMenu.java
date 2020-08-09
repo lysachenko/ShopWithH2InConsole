@@ -6,7 +6,7 @@ import view.Menu;
 
 public class AdminMainMenu implements Menu {
 
-    private String[] items = {
+    private final String[] items = {
             "1. Show my profile",
             "2. User menu",
             "3. Order menu",

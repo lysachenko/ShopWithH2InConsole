@@ -10,9 +10,9 @@ import java.util.Scanner;
 
 public class UserProfileMenu implements Menu {
 
-    private UserService userService = new UserServiceImpl();
-    private Scanner scanner = new Scanner(System.in);
-    private String[] items = {
+    private final UserService userService = new UserServiceImpl();
+    private final Scanner scanner = new Scanner(System.in);
+    private final String[] items = {
             "1. Show my profile",
             "2. Change password",
             "3. Deactivate account",

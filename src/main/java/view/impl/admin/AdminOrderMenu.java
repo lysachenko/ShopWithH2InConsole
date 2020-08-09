@@ -7,10 +7,12 @@ import service.impl.OrderServiceImpl;
 import util.ScannerUtil;
 import view.Menu;
 
+import java.util.List;
+
 public class AdminOrderMenu implements Menu {
 
-    private OrderService orderService = new OrderServiceImpl();
-    private String[] items = {
+    private final OrderService orderService = new OrderServiceImpl();
+    private final String[] items = {
             "1. Show orders",
             "2. Change order status",
             "0. Exit"};
@@ -39,7 +41,12 @@ public class AdminOrderMenu implements Menu {
 
     private void showOrders() {
         System.out.println("Order list:");
-        orderService.findAll().forEach(System.out::println);
+        List<Order> orderList = orderService.findAll();
+        if (orderList.isEmpty()) {
+            System.out.println("Order list is empty!");
+        } else {
+            orderList.forEach(System.out::println);
+        }
     }
 
     private void changeOrderStatus() {
@@ -63,8 +70,9 @@ public class AdminOrderMenu implements Menu {
                     + "\n 1:" + OrderStatus.PRE_CHECKOUT.toString()
                     + "\n 2:" + OrderStatus.CHECKED_OUT.toString()
                     + "\n 3:" + OrderStatus.SENT.toString()
-                    + "\n 4:" + OrderStatus.DONE.toString()
-                    + "\n 5:" + OrderStatus.REJECTED.toString()
+                    + "\n 4:" + OrderStatus.DELIVERED.toString()
+                    + "\n 5:" + OrderStatus.DONE.toString()
+                    + "\n 6:" + OrderStatus.REJECTED.toString()
             );
 
             System.out.print("Enter your choice: ");
@@ -80,9 +88,12 @@ public class AdminOrderMenu implements Menu {
                     status = OrderStatus.SENT.toString();
                     break;
                 case 4:
-                    status = OrderStatus.DONE.toString();
+                    status = OrderStatus.DELIVERED.toString();
                     break;
                 case 5:
+                    status = OrderStatus.DONE.toString();
+                    break;
+                case 6:
                     status = OrderStatus.REJECTED.toString();
                     break;
             }
