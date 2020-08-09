@@ -68,9 +68,4 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findAll() {
         return orderDao.findAll();
     }
-
-    @Override
-    public double positionCalculate(Product product, int amount) {
-        return product.getPrice() * amount;
-    }
 }
