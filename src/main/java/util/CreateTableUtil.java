@@ -54,10 +54,11 @@ public class CreateTableUtil {
 
     private static final String createTablePurchase =
             "create table if not exists purchases ("
-                    + " id integer primary key,"
+                    + " id integer primary key auto_increment,"
                     + " user_id integer,"
                     + " card_number varchar(20),"
                     + " total_sum float,"
+                    + " is_payed boolean,"
                     + " foreign key (user_id) references users(id) on delete cascade);";
 
     private static final String createTablePurchaseProductList =
