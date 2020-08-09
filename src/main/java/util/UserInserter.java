@@ -13,6 +13,13 @@ public class UserInserter {
                     "select 3, 'user2', 'user2', 'CUSTOMER', false \n" +
                     ") x where not exists(select * from users);";
 
+    private static final String insertTestUserShoppingCarts =
+            "insert into shopping_carts select * from (\n" +
+                    "select 1 union\n" +
+                    "select 2 union\n" +
+                    "select 3\n" +
+                    ") x where not exists(select * from shopping_carts);";
+
     public void insert() {
         insertTestValues();
     }
@@ -22,6 +29,7 @@ public class UserInserter {
              Statement statement = connection.createStatement()
         ) {
             statement.execute(insertTestUsers);
+            statement.execute(insertTestUserShoppingCarts);
         } catch (SQLException e) {
             e.printStackTrace();
         }
