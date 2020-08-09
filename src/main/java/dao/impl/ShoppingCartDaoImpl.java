@@ -2,7 +2,6 @@ package dao.impl;
 
 import dao.ProductDao;
 import dao.ShoppingCartDao;
-import dao.UserDao;
 import model.Product;
 import model.ShoppingCart;
 import model.User;
@@ -17,16 +16,14 @@ import java.util.Map;
 
 public class ShoppingCartDaoImpl implements ShoppingCartDao {
 
-    private UserDao userDao = new UserDaoImpl();
-    private ProductDao productDao = new ProductDaoImpl();
+    private final ProductDao productDao = new ProductDaoImpl();
 
-    private static final String INSERT_SOPPING_CART =
-            "INSERT INTO shopping_carts (user_cart_id) VALUES (?);";
-    private static final String INSERT_CART_PRODUCT_LIST =
+    private static final String INSERT_PRODUCT_TO_CART =
             "INSERT INTO cart_product_list (user_cart_id, product_id, amount) VALUES (?, ?, ?);";
 
-    private static final String GET_SOPPING_CART_BY_USER_ID =
-            "select user_cart_id from shopping_carts where user_cart_id = ?;";
+    private static final String GET_USER_CART =
+            "select user_cart_id from SHOPPING_CARTS where user_cart_id = ?;";
+
     private static final String GET_CART_PRODUCT_LIST =
             "select product_id, amount from cart_product_list where user_cart_id = ?;";
 
@@ -36,12 +33,19 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     @Override
     public void save(ShoppingCart shoppingCart) {
         try (Connection connection = H2JDBCUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_SOPPING_CART)
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PRODUCT_TO_CART)
         ) {
-            preparedStatement.setLong(1, shoppingCart.getUser().getId());
-            preparedStatement.executeUpdate();
-
-            insertProductListToDB(shoppingCart);
+            shoppingCart.getPositionMap()
+                    .forEach((product, amount) -> {
+                        try {
+                            preparedStatement.setLong(1, shoppingCart.getUser().getId());
+                            preparedStatement.setLong(2, product.getId());
+                            preparedStatement.setLong(3, amount);
+                            preparedStatement.executeUpdate();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    });
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -49,12 +53,12 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
 
     @Override
     public void update(ShoppingCart shoppingCart) {
-        delete(shoppingCart);
-        insertProductListToDB(shoppingCart);
+        deleteProductList(shoppingCart);
+        save(shoppingCart);
     }
 
     @Override
-    public void delete(ShoppingCart shoppingCart) {
+    public void deleteProductList(ShoppingCart shoppingCart) {
         try (Connection connection = H2JDBCUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CART_PRODUCT_LIST_BY_USER_ID)
         ) {
@@ -69,14 +73,13 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     public ShoppingCart findShoppingCartByUser(User user) {
         ShoppingCart shoppingCart = null;
         try (Connection connection = H2JDBCUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_SOPPING_CART_BY_USER_ID)
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_USER_CART)
         ) {
             preparedStatement.setLong(1, user.getId());
             ResultSet rs1 = preparedStatement.executeQuery();
 
             while (rs1.next()) {
-                shoppingCart = new ShoppingCart();
-                shoppingCart.setUser(userDao.findById(rs1.getLong("user_id")));
+                shoppingCart = new ShoppingCart(user);
                 shoppingCart.setPositionMap(getPositionMapFromDB(shoppingCart));
             }
         } catch (SQLException e) {
@@ -102,25 +105,5 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
             e.printStackTrace();
         }
         return positionMap;
-    }
-
-    private void insertProductListToDB(ShoppingCart shoppingCart) {
-        try (Connection connection = H2JDBCUtil.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CART_PRODUCT_LIST)
-        ) {
-            shoppingCart.getPositionMap()
-                    .forEach((product, amount) -> {
-                        try {
-                            preparedStatement.setLong(1, shoppingCart.getUser().getId());
-                            preparedStatement.setLong(2, product.getId());
-                            preparedStatement.setLong(3, amount);
-                            preparedStatement.executeUpdate();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
-                    });
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
