@@ -62,13 +62,20 @@ public class UserOrderMenu implements Menu {
             return;
         }
 
-        //Увеличение при отмене заказа
-        order.getPositionMap().forEach((product, amount) -> {
-                    product.setAmount(product.getAmount() + amount);
-                    productService.update(product);
-                }
-        );
-        orderService.changeOrderStatus(order, OrderStatus.REJECTED.toString());
+        if (order.getStatus().equals(OrderStatus.PRE_CHECKOUT)
+                || order.getStatus().equals(OrderStatus.CHECKED_OUT)
+        ) {
+            //Увеличение при отмене заказа
+            order.getPositionMap().forEach((product, amount) -> {
+                        product.setAmount(product.getAmount() + amount);
+                        productService.update(product);
+                    }
+            );
+            orderService.changeOrderStatus(order, OrderStatus.REJECTED.toString());
+        } else {
+            System.out.println("You cannot reject your order at this stage!");
+            System.out.println("Please call the shop administrator to resolve the issue.");
+        }
     }
 
     private void showMyOrders() {
