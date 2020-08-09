@@ -79,7 +79,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public void clearProductList(ShoppingCart shoppingCart) {
         writeLock.lock();
         try {
-            shoppingCartDao.deleteProductList(shoppingCart);
+            shoppingCartDao.deleteCartProductList(shoppingCart);
         } finally {
             writeLock.unlock();
         }

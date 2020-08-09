@@ -9,7 +9,7 @@ public interface ShoppingCartDao {
 
     void update(ShoppingCart shoppingCart);
 
-    void deleteProductList(ShoppingCart shoppingCart);
+    void deleteCartProductList(ShoppingCart shoppingCart);
 
     ShoppingCart findShoppingCartByUser(User user);
 }

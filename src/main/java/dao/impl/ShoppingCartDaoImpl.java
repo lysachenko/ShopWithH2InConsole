@@ -53,12 +53,12 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
 
     @Override
     public void update(ShoppingCart shoppingCart) {
-        deleteProductList(shoppingCart);
+        deleteCartProductList(shoppingCart);
         save(shoppingCart);
     }
 
     @Override
-    public void deleteProductList(ShoppingCart shoppingCart) {
+    public void deleteCartProductList(ShoppingCart shoppingCart) {
         try (Connection connection = H2JDBCUtil.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_CART_PRODUCT_LIST_BY_USER_ID)
         ) {
