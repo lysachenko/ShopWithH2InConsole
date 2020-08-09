@@ -24,6 +24,4 @@ public interface OrderService {
     List<Order> findOrdersByUser(User user);
 
     List<Order> findAll();
-
-    double positionCalculate(Product product, int amount);
 }
