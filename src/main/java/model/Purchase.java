@@ -8,6 +8,8 @@ public class Purchase {
     private User user;
     private Map<Product, Integer> positionMap;
     private String cardNumber;
+    private float totalSum;
+    private boolean isPayed;
 
     public long getId() {
         return id;
@@ -39,6 +41,18 @@ public class Purchase {
 
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
+    }
+
+    public boolean isPayed() {
+        return isPayed;
+    }
+
+    public void setPayed(boolean payed) {
+        isPayed = payed;
+    }
+
+    public void setTotalSum(float totalSum) {
+        this.totalSum = totalSum;
     }
 
     public float getTotalSum() {
