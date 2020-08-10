@@ -1,6 +1,8 @@
 package model;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Purchase {
 
@@ -56,9 +58,41 @@ public class Purchase {
     }
 
     public float getTotalSum() {
-        return (float) positionMap.entrySet().stream()
+        return (float) positionMap.entrySet()
+                .stream()
                 .mapToDouble(productAmountEntry ->
                         productAmountEntry.getKey().getPrice() * productAmountEntry.getValue())
                 .sum();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Purchase purchase = (Purchase) o;
+        return id == purchase.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "********************************************\n"
+                + "Purchase: " +
+                "id=" + id +
+                "\nuser: id=" + user.getId() + ", username=" + user.getUsername() +
+                "\npositions:" + positionMap.entrySet()
+                .stream()
+                .map(productIntegerEntry ->
+                        "\n\tProduct: " + productIntegerEntry.getKey().toString()
+                                + ", ordered quantity: " + productIntegerEntry.getValue().toString() + "\n")
+                .collect(Collectors.joining()) +
+                "\ncardNumber='" + cardNumber + '\'' +
+                "\ntotalSum=" + totalSum +
+                "\nisPayed=" + isPayed
+                + "\n********************************************";
     }
 }

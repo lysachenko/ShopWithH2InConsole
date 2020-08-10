@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Order {
@@ -51,18 +52,41 @@ public class Order {
         this.positionMap = positionMap;
     }
 
+    private float getTotalSumInOrder() {
+        return (float) positionMap
+                .entrySet()
+                .stream()
+                .mapToDouble(positionEntry -> positionEntry.getKey().getPrice() * positionEntry.getValue())
+                .sum();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return id == order.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
     @Override
     public String toString() {
-        return "Order{" +
+        return "********************************************\n" +
+                "Order " +
                 "id=" + id +
-                ", user=" + user +
-                ", orderStatus=" + status +
-                ", \npositions: " +
+                "\nuser: id=" + user.getId() + ", username=" + user.getUsername() +
+                "\norderStatus=" + status +
+                "\npositions: " +
                 positionMap.entrySet().stream()
                         .map(productIntegerEntry ->
-                                "\n\t Product: " + productIntegerEntry.getKey().toString()
-                                        + ", amount: " + productIntegerEntry.getValue().toString())
+                                "\n\tProduct: " + productIntegerEntry.getKey().toString()
+                                        + ", ordered quantity: " + productIntegerEntry.getValue().toString() + "\n")
                         .collect(Collectors.joining())
-                + '}';
+                + "\nTotal order sum = " + getTotalSumInOrder()
+                + "\n********************************************";
     }
 }

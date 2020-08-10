@@ -24,13 +24,24 @@ public class ShoppingCart {
         this.positionMap = positionMap;
     }
 
+    private float getTotalSumInCart() {
+        return (float) positionMap
+                .entrySet()
+                .stream()
+                .mapToDouble(positionEntry -> positionEntry.getKey().getPrice() * positionEntry.getValue())
+                .sum();
+    }
+
     @Override
     public String toString() {
-        return "ShoppingCart{" + positionMap.entrySet().stream()
+
+        return "********************************************\n" +
+                "ShoppingCart:" + positionMap.entrySet().stream()
                 .map(productIntegerEntry ->
-                        "\n\t Product: " + productIntegerEntry.getKey().toString()
-                                + ", amount: " + productIntegerEntry.getValue().toString())
+                        "\n\tProduct: " + productIntegerEntry.getKey().toString()
+                                + ", ordered quantity: " + productIntegerEntry.getValue().toString() + "\n")
                 .collect(Collectors.joining())
-                + '}';
+                + "\nTotal sum = " + getTotalSumInCart()
+                + "\n********************************************";
     }
 }

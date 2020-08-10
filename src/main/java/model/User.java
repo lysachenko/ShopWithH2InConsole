@@ -20,19 +20,6 @@ public class User {
         this.isActive = isActive;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return getUsername().equals(user.getUsername());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getUsername());
-    }
-
     public long getId() {
         return id;
     }
@@ -74,13 +61,25 @@ public class User {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
     public String toString() {
-        return "User{" +
+        return "User: " +
                 "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                ", isActive=" + isActive +
-                '}';
+                "\n\tusername='" + username + '\'' +
+                "\n\tpassword='" + password + '\'' +
+                "\n\trole=" + role +
+                "\n\tisActive=" + isActive;
     }
 }

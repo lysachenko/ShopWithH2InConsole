@@ -27,19 +27,6 @@ public class Product {
         this.amount = amount;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Product)) return false;
-        Product product = (Product) o;
-        return getName().equals(product.getName());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName());
-    }
-
     public long getId() {
         return id;
     }
@@ -81,11 +68,24 @@ public class Product {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
     public String toString() {
-        return "{id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", amount in stock=" + amount + '}';
+        return "id=" + id +
+                "\n\tname='" + name + '\'' +
+                "\n\tprice=" + price +
+                "\n\tdescription='" + description + '\'' +
+                "\n\tamount in stock=" + amount;
     }
 }
