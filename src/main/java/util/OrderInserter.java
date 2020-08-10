@@ -10,7 +10,7 @@ public class OrderInserter {
             "insert into ORDERS select * from (\n" +
                     "select 1, 2, 'PRE_CHECK_OUT'union \n" +
                     "select 2, 2, 'CHECKED_OUT'union \n" +
-                    "select 3, 3, 'PRE_CHECKOUT'\n" +
+                    "select 3, 3, 'PRE_CHECK_OUT'\n" +
                     ") x where not exists(select * from ORDERS);";
     private final String insertTestProductList =
             "insert into ORDER_PRODUCT_LIST select * from (\n" +

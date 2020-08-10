@@ -112,6 +112,7 @@ public class PurchaseDaoImpl implements PurchaseDao {
                 purchase.setUser(userDao.findById(rs.getLong("user_id")));
                 purchase.setCardNumber(rs.getString("card_number"));
                 purchase.setTotalSum(rs.getFloat("total_sum"));
+                purchase.setPayed(rs.getBoolean("is_payed"));
                 purchase.setPositionMap(getPositionMapFromDB(purchase));
 
                 purchases.add(purchase);
@@ -137,6 +138,7 @@ public class PurchaseDaoImpl implements PurchaseDao {
                 purchase.setUser(userDao.findById(rs.getLong("user_id")));
                 purchase.setCardNumber(rs.getString("card_number"));
                 purchase.setTotalSum(rs.getFloat("total_sum"));
+                purchase.setPayed(rs.getBoolean("is_payed"));
                 purchase.setPositionMap(getPositionMapFromDB(purchase));
             }
         } catch (SQLException e) {
@@ -160,6 +162,7 @@ public class PurchaseDaoImpl implements PurchaseDao {
                 purchase.setUser(userDao.findById(rs.getLong("user_id")));
                 purchase.setCardNumber(rs.getString("card_number"));
                 purchase.setTotalSum(rs.getFloat("total_sum"));
+                purchase.setPayed(rs.getBoolean("is_payed"));
                 purchase.setPositionMap(getPositionMapFromDB(purchase));
 
                 purchases.add(purchase);

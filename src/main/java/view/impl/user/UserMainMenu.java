@@ -11,7 +11,8 @@ public class UserMainMenu implements Menu {
             "1. Profile menu",
             "2. Product menu",
             "3. Shopping cart",
-            "4. Order menu",
+            "4. Orders menu",
+            "5. Purchases menu",
             "0. Exit"};
     private User user;
 
@@ -40,6 +41,9 @@ public class UserMainMenu implements Menu {
                     break;
                 case 4:
                     new UserOrderMenu(user).show();
+                    break;
+                case 5:
+                    new UserPurchaseMenu(user).show();
                     break;
                 case 0:
                     return;

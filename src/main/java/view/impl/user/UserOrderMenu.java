@@ -11,6 +11,7 @@ import util.ScannerUtil;
 import view.Menu;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserOrderMenu implements Menu {
 
@@ -48,9 +49,24 @@ public class UserOrderMenu implements Menu {
         }
     }
 
+    private void showMyOrders() {
+        List<Order> orderList = getMyOrders();
+        if (orderList.isEmpty()) {
+            System.out.println("Order list is empty!");
+        } else {
+            System.out.println(orderList);
+        }
+    }
+
     private void rejectOrder() {
         long orderId;
         Order order;
+
+        List<Order> orderList = getMyOrders();
+        if (orderList.isEmpty()) {
+            System.out.println("Order list is empty!");
+            return;
+        }
 
         showMyOrders();
         System.out.print("Enter order ID to change status: ");
@@ -81,13 +97,12 @@ public class UserOrderMenu implements Menu {
         }
     }
 
-    private void showMyOrders() {
-        System.out.println("My orders:");
-        List<Order> orderList = orderService.findOrdersByUser(user);
-        if (orderList.isEmpty()) {
-            System.out.println("Order list is empty!");
-        } else {
-            orderService.findOrdersByUser(user).forEach(System.out::println);
-        }
+    private List<Order> getMyOrders() {
+        return orderService.findOrdersByUser(user)
+                .stream()
+                .filter(order -> order.getStatus().equals(OrderStatus.PRE_CHECK_OUT)
+                        || order.getStatus().equals(OrderStatus.CHECKED_OUT)
+                        || order.getStatus().equals(OrderStatus.REJECTED))
+                .collect(Collectors.toList());
     }
 }

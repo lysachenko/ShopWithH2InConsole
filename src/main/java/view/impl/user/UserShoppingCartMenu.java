@@ -13,7 +13,6 @@ import util.ScannerUtil;
 import view.Menu;
 
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class UserShoppingCartMenu implements Menu {
 
@@ -44,7 +43,7 @@ public class UserShoppingCartMenu implements Menu {
 
             switch (choice) {
                 case 1:
-                    showProductsInCart();
+                    showProducts();
                     break;
                 case 2:
                     removeProductFromCart();
@@ -65,7 +64,11 @@ public class UserShoppingCartMenu implements Menu {
         System.out.println("Update product amount!");
         ShoppingCart shoppingCart = shoppingCartService.findShoppingCartByUser(user);
 
-        showProductsInCart();
+        if (shoppingCart.getPositionMap().isEmpty()) {
+            System.out.println("Cart is empty! Add product to cart, please!");
+            return;
+        }
+        showProducts();
         long productId;
         Product product;
         System.out.print("Enter product id: ");
@@ -91,11 +94,25 @@ public class UserShoppingCartMenu implements Menu {
         System.out.println("Product amount updated!");
     }
 
+    private void showProducts() {
+        ShoppingCart shoppingCart = shoppingCartService.findShoppingCartByUser(user);
+
+        if (shoppingCart.getPositionMap().isEmpty()) {
+            System.out.println("Cart id empty!");
+        } else {
+            System.out.println(shoppingCart.toString());
+        }
+    }
+
     private void removeProductFromCart() {
         System.out.println("Deleting products from cart!");
         ShoppingCart shoppingCart = shoppingCartService.findShoppingCartByUser(user);
 
-        showProductsInCart();
+        if (shoppingCart.getPositionMap().isEmpty()) {
+            System.out.println("Cart is empty! Add product to cart, please!");
+            return;
+        }
+        showProducts();
         Product product;
         System.out.print("Enter product id: ");
         product = productService.findById(ScannerUtil.getLong());
@@ -110,27 +127,17 @@ public class UserShoppingCartMenu implements Menu {
         System.out.println("Product " + product.getName() + " removed from cart!");
     }
 
-    private void showProductsInCart() {
-        System.out.println("Shopping cart: ");
-        String productList = shoppingCartService.findShoppingCartByUser(user).getPositionMap()
-                .entrySet()
-                .stream()
-                .map(positionEntry -> "\tProduct: " + positionEntry.getKey().toString()
-                        + ", amount: " + positionEntry.getValue() + "\n"
-                )
-                .collect(Collectors.joining());
-        if (productList.isEmpty()) {
-            System.out.println("Cart is empty!");
-        } else {
-            System.out.println(productList);
-        }
-    }
-
     private void createOrder() {
         ShoppingCart shoppingCart = shoppingCartService.findShoppingCartByUser(user);
 
+        if (shoppingCart.getPositionMap().isEmpty()) {
+            System.out.println("Cart is empty! Add product to cart, please!");
+            return;
+        }
+
         System.out.println("Do you want to create order with which positions? ");
-        showProductsInCart();
+        System.out.println(shoppingCart.toString());
+
         System.out.print("Enter \"Y\" - to confirm or any key to exit this menu: ");
         String answer = scanner.nextLine();
         if ("Y".equals(answer) || "y".equals(answer)) {
